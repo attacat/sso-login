@@ -4,6 +4,7 @@ import sqlite3
 from decouple import config
 
 
+
 from flask import Flask, redirect, request, url_for
 from flask_login import (
     LoginManager,
@@ -22,9 +23,7 @@ from user import User
 
 #To run create a OAuth client ID on Google developers credentails page and set env variable of the client_id and the client_secret
 GOOGLE_CLIENT_ID = config("GOOGLE_CLIENT_ID")
-print(f"google client id {GOOGLE_CLIENT_ID}")
 GOOGLE_CLIENT_SECRET = config("GOOGLE_CLIENT_SECRET")
-print(f"google client secet {GOOGLE_CLIENT_SECRET}")
 GOOGLE_DISCOVERY_URL = (
     "https://accounts.google.com/.well-known/openid-configuration"
 )
@@ -35,7 +34,11 @@ def get_google_provider_cfg():
 
 
 app = Flask(__name__)
+
+
+
 app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
+
 
 
 
@@ -43,7 +46,6 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 client = WebApplicationClient(GOOGLE_CLIENT_ID)
-print(f"CLIENT {client}")
 
 
 try:
