@@ -48,6 +48,7 @@ login_manager.init_app(app)
 client = WebApplicationClient(GOOGLE_CLIENT_ID)
 
 
+
 try:
     init_db_command()
 except sqlite3.OperationalError:
@@ -115,7 +116,11 @@ def callback():
     userinfo_endpoint = google_provider_cfg["userinfo_endpoint"]
     uri, headers, body = client.add_token(userinfo_endpoint)
     userinfo_response = requests.get(uri, headers=headers, data=body)
-    if userinfo_response.json().get("email_verified"):
+    printint_stuff = userinfo_response.json()["hd"]
+    print(f"HD {printint_stuff}")
+    if userinfo_response.json()["hd"]!='attacat.co.uk':
+        return("This needs to be an attacat account!")
+    elif userinfo_response.json().get("email_verified"):
         unique_id = userinfo_response.json()["sub"]
         users_email = userinfo_response.json()["email"]
         picture = userinfo_response.json()["picture"]
