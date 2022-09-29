@@ -116,10 +116,8 @@ def callback():
     userinfo_endpoint = google_provider_cfg["userinfo_endpoint"]
     uri, headers, body = client.add_token(userinfo_endpoint)
     userinfo_response = requests.get(uri, headers=headers, data=body)
-    printint_stuff = userinfo_response.json()["hd"]
-    print(f"HD {printint_stuff}")
     if userinfo_response.json()["hd"]!='attacat.co.uk':
-        return("This needs to be an attacat account!")
+        return "This needs to be an attacat account!", 400
     elif userinfo_response.json().get("email_verified"):
         unique_id = userinfo_response.json()["sub"]
         users_email = userinfo_response.json()["email"]
