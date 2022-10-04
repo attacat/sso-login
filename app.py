@@ -5,7 +5,8 @@ from decouple import config
 
 
 
-from flask import Flask, redirect, request, url_for
+from flask import Flask, redirect, request, url_for, render_template
+
 from flask_login import (
     LoginManager,
     current_user,
@@ -66,16 +67,9 @@ def load_user(user_id):
 @app.route("/")
 def index():
     if current_user.is_authenticated:
-        return (
-            "<p>Hello, {}! You're logged in! Email: {}</p>"
-            "<div><p>Google Profile Picture:</p>"
-            '<img src="{}" alt="Google profile pic"></img></div>'
-            '<a class="button" href="/logout">Logout</a>'.format(
-                current_user.name, current_user.email, current_user.profile_pic
-            )
-        )
+        return render_template("base.html")
     else:
-        return '<a class="button" href="/login">Google Login</a>'
+        return render_template("login.html")
 
 
 @app.route("/login")
@@ -116,13 +110,16 @@ def callback():
     userinfo_endpoint = google_provider_cfg["userinfo_endpoint"]
     uri, headers, body = client.add_token(userinfo_endpoint)
     userinfo_response = requests.get(uri, headers=headers, data=body)
-    if userinfo_response.json()["hd"]!='attacat.co.uk':
-        return "This needs to be an attacat account!", 400
-    elif userinfo_response.json().get("email_verified"):
-        unique_id = userinfo_response.json()["sub"]
-        users_email = userinfo_response.json()["email"]
-        picture = userinfo_response.json()["picture"]
-        users_name = userinfo_response.json()["given_name"]
+    print(userinfo_response.json())
+    if userinfo_response.json()["hd"] != "attacat.co.uk":
+        return "User email not eligible to sign into the website.", 501
+    if userinfo_response.json().get("email_verified"):
+            unique_id = userinfo_response.json()["sub"]
+            users_email = userinfo_response.json()["email"]
+            picture = userinfo_response.json()["picture"]
+            users_name = userinfo_response.json()["given_name"]
+
+
     else:
         return "User email not available or not verified by Google.", 400
 
@@ -144,6 +141,26 @@ def logout():
     logout_user()
     return redirect(url_for("index"))
 
+
+@app.route("/set-date")
+def set_date():
+    return render_template("set_date.html")
+
+@app.route("/select_reviewers")
+def select_reviewers():
+    return render_template("select_reviewers.html")
+
+@app.route("/reviews-to-complete")
+def reviews_to_complete():
+    return render_template("reviews_to_complete.html")
+
+@app.route("/my-feedback")
+def my_feedback():
+    return render_template("my_feedback.html")
+
+@app.route("/guidelines")
+def guidelines():
+    return render_template("guidelines.html")
 
 
 
