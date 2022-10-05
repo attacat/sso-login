@@ -130,8 +130,8 @@ def callback():
     userinfo_endpoint = google_provider_cfg["userinfo_endpoint"]
     uri, headers, body = client.add_token(userinfo_endpoint)
     userinfo_response = requests.get(uri, headers=headers, data=body)
-    print(userinfo_response.json())
     if userinfo_response.json()["hd"] != "attacat.co.uk":
+        flash("User email not eligible to sign into the website.")
         return "User email not eligible to sign into the website.", 403
     if userinfo_response.json().get("email_verified"):
             unique_id = userinfo_response.json()["sub"]

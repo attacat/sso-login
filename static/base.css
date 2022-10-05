@@ -5,5 +5,16 @@ a {
     font-size: large;
 }
 
+img {
+    position: absolute;
+    right: 0;
+    margin: 45px;
 
+}
 
+p{
+    margin-top: 0;
+    margin-bottom: 1rem;
+    padding-bottom: 13px;
+    width: 350px;
+}
