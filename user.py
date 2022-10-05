@@ -11,6 +11,12 @@ class User(UserMixin):
         self.profile_pic = profile_pic
 
     @staticmethod
+    def get_all_users():
+        db = get_db()
+        users = db.execute( "SELECT * FROM user").fetchall()
+        return users
+
+    @staticmethod
     def get(user_id):
         db = get_db()
         user = db.execute(
