@@ -9,31 +9,30 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-    <header>
-    <div class="container-fluid mt-3">
-        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#demo">
-            <img src="../static/menu.png" alt = "menu icon" width="50px" height="auto">
-        </button>
-        <a href="/logout">Logout</a>
-        
-
-      </div>
-
-<div class="offcanvas offcanvas-start" id="demo">
-  <div class="offcanvas-header">
-    <h1 class="offcanvas-title">Attacat 360</h1>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
-  </div>
-  <div class="offcanvas-body">
-    <p><a href="/guidelines">Guidlines</a></p>
-    <p><a href = "/set-date">Set my review date</a></p>
-    <p><a href="/select_reviewers">Select reviewers</a></p>
-    <p><a href="/reviews-to-complete">Reviews to complete</a></p>
-    <p><a href="/my-feedback">My feedback</a></p>
+  <div class="container-fluid">
+    <div class="row flex-nowrap">
+        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+            <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                    <span class="fs-5 d-none d-sm-inline">Attacat360</span>
+                </a>
+                <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                  <p><a href="/guidelines">Guidlines</a></p>
+                  <p><a href = "/set-date">Set my review date</a></p>
+                  <p><a href="/select_reviewers">Select reviewers</a></p>
+                  <p><a href="/reviews-to-complete">Reviews to complete</a></p>
+                  <p><a href="/my-feedback">My feedback</a></p>
+                  <p><a href="/logout">Logout</a></p>
+                    
+                      
+                </ul>
+                </div>
+            </div>
+        </div>
     
-  </div>
-  </div>
-  
-</header>
+    </div>
+</div>
+
 </body>
+    
 </html>

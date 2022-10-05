@@ -36,7 +36,6 @@ def get_google_provider_cfg():
 
 app = Flask(__name__)
 
-print(User.get("01"))
 
 
 
