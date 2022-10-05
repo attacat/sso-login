@@ -5,7 +5,7 @@ from decouple import config
 
 
 
-from flask import Flask, redirect, request, url_for, render_template
+from flask import Flask, redirect, request, url_for, render_template, flash
 
 from flask_login import (
     LoginManager,
@@ -36,6 +36,8 @@ def get_google_provider_cfg():
 
 app = Flask(__name__)
 
+print(User.get("01"))
+
 
 
 app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
@@ -54,6 +56,25 @@ try:
     init_db_command()
 except sqlite3.OperationalError:
     pass
+
+# users = [
+#     {
+#         "name":"Sofia Ignatiadi",
+#         "email": "sofia.ignatiadi@attacat.co.uk",
+#         "role":"Member"}
+#     {
+#         "name":"Austin Ruddy",
+#         "email":"austin.ruddy@attacat.co.uk",
+#         "role": "Member"}
+#     {
+#         "name": "Tim Barlow",
+#         "email":"tim.barlow@attacat.co.uk",
+#         "role":"Owner"}
+#     {
+#         "name": "Carly Bonas",
+#         "email":"carly.bonas@attacat.co.uk",
+#         "role":"Owner"}
+# ]
 
 
 
@@ -112,7 +133,7 @@ def callback():
     userinfo_response = requests.get(uri, headers=headers, data=body)
     print(userinfo_response.json())
     if userinfo_response.json()["hd"] != "attacat.co.uk":
-        return "User email not eligible to sign into the website.", 501
+        return "User email not eligible to sign into the website.", 403
     if userinfo_response.json().get("email_verified"):
             unique_id = userinfo_response.json()["sub"]
             users_email = userinfo_response.json()["email"]
@@ -143,25 +164,38 @@ def logout():
 
 
 @app.route("/set-date")
+@login_required
 def set_date():
     return render_template("set_date.html")
 
 @app.route("/select_reviewers")
+@login_required
 def select_reviewers():
     return render_template("select_reviewers.html")
 
 @app.route("/reviews-to-complete")
+@login_required
 def reviews_to_complete():
     return render_template("reviews_to_complete.html")
 
 @app.route("/my-feedback")
+@login_required
 def my_feedback():
     return render_template("my_feedback.html")
 
 @app.route("/guidelines")
+@login_required
 def guidelines():
     return render_template("guidelines.html")
 
+@app.route("/admin")
+@login_required
+def admin():
+    if not current_user.role =="Owner":
+        flash("You do not have access to view this page.")
+        return redirect(url_for('guidelines'))
+    else: 
+        return render_template("add_user.html")
 
 
 if __name__ == "__main__":
