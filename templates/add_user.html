@@ -1,0 +1,43 @@
+{% extends "base.html" %} {% block content %}
+
+<form action="/admin" method="post" class="card" style="max-width: 80ch">
+  <div class="card-body">
+    <div class="mb-3">
+      <label class="form-label" for="name">Name</label>
+      <input
+        class="form-control"
+        type="text"
+        id="name"
+        name="name"
+        placeholder="Name"
+      />
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label" for="description">Email</label>
+      <input
+        class="form-control"
+        type="text"
+        id="description"
+        name="description"
+        placeholder="Description"
+      />
+    </div>
+
+
+
+
+    <div class="mb-3">
+      <label class="form-label" for="manufacturer_id">Manufacturer</label>
+      <select class="form-select" id="manufacturer_id" name="manufacturer_id">
+        <option>Owner</option>
+        <option>Manager></option>
+        <option>Member</option>
+        
+      </select>
+    </div>
+    <button class="btn btn-primary" type="submit">Add User</button>
+  </div>
+</form>
+
+{% endblock %}
