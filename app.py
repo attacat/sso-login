@@ -1,7 +1,7 @@
 import json
 import os
-import sqlite3
 from decouple import config
+from flask_mysqldb import MySQL
 
 
 
@@ -19,6 +19,7 @@ import requests
 
 from db import init_db_command
 from user import User
+import pymysql
 
 
 
@@ -36,6 +37,23 @@ def get_google_provider_cfg():
 
 app = Flask(__name__)
 
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = 'password'
+app.config['MYSQL_DB'] = 'attacat_360'
+ 
+mysql = MySQL(app)
+
+with app.app_context():
+    cursor = mysql.connection.cursor()
+    variable = cursor.execute('''SELECT * FROM attacat_360.roles;''')
+    print(variable)
+
+
+    mysql.connection.commit()
+    cursor.close()
+
+
 
 
 
@@ -50,30 +68,6 @@ login_manager.init_app(app)
 client = WebApplicationClient(GOOGLE_CLIENT_ID)
 
 
-
-try:
-    init_db_command()
-except sqlite3.OperationalError:
-    pass
-
-# users = [
-#     {
-#         "name":"Sofia Ignatiadi",
-#         "email": "sofia.ignatiadi@attacat.co.uk",
-#         "role":"Member"}
-#     {
-#         "name":"Austin Ruddy",
-#         "email":"austin.ruddy@attacat.co.uk",
-#         "role": "Member"}
-#     {
-#         "name": "Tim Barlow",
-#         "email":"tim.barlow@attacat.co.uk",
-#         "role":"Owner"}
-#     {
-#         "name": "Carly Bonas",
-#         "email":"carly.bonas@attacat.co.uk",
-#         "role":"Owner"}
-# ]
 
 
 
@@ -130,16 +124,14 @@ def callback():
     userinfo_endpoint = google_provider_cfg["userinfo_endpoint"]
     uri, headers, body = client.add_token(userinfo_endpoint)
     userinfo_response = requests.get(uri, headers=headers, data=body)
-    if userinfo_response.json()["hd"] != "attacat.co.uk":
-        flash("User email not eligible to sign into the website.")
-        return "User email not eligible to sign into the website.", 403
+    # if userinfo_response.json()["hd"] != "attacat.co.uk":
+    #     flash("User email not eligible to sign into the website.")
+    #     return "User email not eligible to sign into the website.", 403
     if userinfo_response.json().get("email_verified"):
-            unique_id = userinfo_response.json()["sub"]
-            users_email = userinfo_response.json()["email"]
-            picture = userinfo_response.json()["picture"]
-            users_name = userinfo_response.json()["given_name"]
-
-
+        unique_id = userinfo_response.json()["sub"]
+        users_email = userinfo_response.json()["email"]
+        picture = userinfo_response.json()["picture"]
+        users_name = userinfo_response.json()["given_name"]
     else:
         return "User email not available or not verified by Google.", 400
 
