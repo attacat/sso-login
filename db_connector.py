@@ -8,3 +8,5 @@ db = mysql.connect(
     database = "attacat_360"
 )
 
+cursor = db.cursor()
+
