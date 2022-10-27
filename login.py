@@ -10,10 +10,6 @@ from flask_login import (
     login_user
 )
 
-
-
-
-
 login_blueprint = Blueprint("user", __name__)
 
 @login_blueprint.route("/")
