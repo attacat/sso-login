@@ -13,12 +13,11 @@ class User(UserMixin):
         self.role = role
 
     @staticmethod
-    def get(user_id):
-        list_user_id = [user_id]
+    def get(id_user):
+        list_user_id = [id_user]
         cursor.execute(
-        "SELECT * FROM users WHERE email = %s", (list_user_id))
+        "SELECT * FROM users WHERE id_user = %s", (list_user_id))
         user = cursor.fetchone()
-        print(f' Line 21 models userPrinting of user in get_user_by_email{user}')
         if not user:
             return None
 
