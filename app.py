@@ -3,7 +3,6 @@ from flask import Flask
 from controllers.login_controller import login_blueprint
 from flask_login import LoginManager
 from models.user import User
-from connections.db_connector import cursor
 
 
 app = Flask(__name__)
@@ -20,7 +19,6 @@ def load_user(id_user):
 
 
 app.register_blueprint(login_blueprint)
-
 
 
 if __name__ == "__main__":
