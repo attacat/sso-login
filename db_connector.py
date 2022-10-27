@@ -1,22 +1,10 @@
-from flask_mysqldb import MySQL
+import mysql.connector as mysql
 
 
-def db_connector(app, message):
-    app.config['MYSQL_HOST'] = 'localhost'
-    app.config['MYSQL_USER'] = 'root'
-    app.config['MYSQL_PASSWORD'] = 'password'
-    app.config['MYSQL_DB'] = 'attacat_360'
-    
-    mysql = MySQL(app)
+db = mysql.connect(
+    host = "localhost",
+    user = "root",
+    passwd = "password",
+    database = "attacat_360"
+)
 
-    with app.app_context():
-        cursor = mysql.connection.cursor()
-        cursor.execute(message)
-        result = cursor.fetchall()
-        print(result)
-
-
-        mysql.connection.commit()
-        cursor.close()
-
-    return result  
