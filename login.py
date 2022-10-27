@@ -6,20 +6,15 @@ import requests
 import json
 
 from flask_login import (
-    LoginManager,
     current_user,
-    login_required,
-    login_user,
-    logout_user
+    login_user
 )
 
 
-def set_login_manager(app):
-    login_manager = LoginManager()
-    login_manager.init_app(app)
 
 
-login_blueprint = Blueprint("login_blueprint", __name__)
+
+login_blueprint = Blueprint("user", __name__)
 
 @login_blueprint.route("/")
 def index():
@@ -78,4 +73,4 @@ def callback():
 
     login_user(user)
 
-    return redirect(url_for("index"))
+    return redirect(url_for("user.index"))
