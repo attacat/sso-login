@@ -1,9 +1,9 @@
 import os
 from flask import Flask
-from login import login_blueprint
+from controllers.login_controller import login_blueprint
 from flask_login import LoginManager
 from models.user import User
-from db_connector import cursor
+from connections.db_connector import cursor
 
 
 app = Flask(__name__)

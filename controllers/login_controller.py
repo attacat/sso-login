@@ -1,6 +1,6 @@
 from repositories.user_repository import get_user_by_email
 from flask import Blueprint
-from google_auth import get_google_provider_cfg, client, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET
+from connections.google_auth import get_google_provider_cfg, client, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET
 from flask import redirect, request, url_for, render_template
 import requests
 import json

@@ -1,5 +1,5 @@
 from flask_login import UserMixin
-from db_connector import cursor
+from connections.db_connector import cursor
 
 class User(UserMixin):
     def __init__(self, id, full_name, email, added, status, updated, update_user, role):

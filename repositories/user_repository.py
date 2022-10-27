@@ -1,5 +1,5 @@
 from models.user import User
-from db_connector import cursor
+from connections.db_connector import cursor
 
 
 def get_all_users():
@@ -12,7 +12,6 @@ def get_user_by_email(email):
     cursor.execute(
         "SELECT * FROM users WHERE email = %s", (list_email))
     user = cursor.fetchone()
-    print(f'Printing of user in get_user_by_email{user}')
     if not user:
         return None
 
