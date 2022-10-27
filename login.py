@@ -1,10 +1,9 @@
-from models.user import User
+from repositories.user_repository import get_user_by_email
 from flask import Blueprint
 from google_auth import get_google_provider_cfg, client, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET
 from flask import redirect, request, url_for, render_template
 import requests
 import json
-from repositories.login_repository import look_for_email_in_mysql
 
 from flask_login import (
     LoginManager,
@@ -69,21 +68,13 @@ def callback():
     userinfo_response = requests.get(uri, headers=headers, data=body)
     if userinfo_response.json().get("email_verified") :
         users_email = userinfo_response.json()["email"]
-        users_name = userinfo_response.json()["given_name"]
-        result = look_for_email_in_mysql(users_email)
-        if result == 0:
-            return "User is not authorised to enter the website", 400
+        user = get_user_by_email(users_email)
+        if user == None:
+            return "User not authorised to enter the website", 400
         
     else:
         return "User email not available or not verified by Google.", 400
 
-    #Code below needs work as it needs to populate user object with data from the db
-    user = User(
-        name=users_name, email=users_email,
-    )
-    #Should get id as an arguement
-    if not User.get():
-        User.create(users_name, users_email)
 
     login_user(user)
 
