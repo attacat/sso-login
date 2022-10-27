@@ -1,20 +1,26 @@
+import os
 from flask import Flask
-from controller import blueprint
-from db_connector import db
+from login import login_blueprint
+from flask_login import LoginManager
+from models.user import User
+from db_connector import cursor
 
 
 
 app = Flask(__name__)
 
-cursor = db.cursor()
+app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
 
-cursor.execute("SELECT * FROM attacat_360.users")
-tables = cursor.fetchall()
-#object type of tables: list
-print(type(tables))
-# login_manager = set_login_manager(app)
+login_manager = LoginManager()
+login_manager.init_app(app)
 
-# app.register_blueprint(blueprint)
+
+@login_manager.user_loader
+def load_user(id):
+    return User.get(id)
+
+
+app.register_blueprint(login_blueprint)
 
 
 
