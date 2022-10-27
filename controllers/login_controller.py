@@ -7,7 +7,9 @@ import json
 
 from flask_login import (
     current_user,
-    login_user
+    login_user,
+    login_required,
+    logout_user
 )
 
 login_blueprint = Blueprint("user", __name__)
@@ -69,4 +71,10 @@ def callback():
 
     login_user(user)
 
+    return redirect(url_for("user.index"))
+
+@login_blueprint.route("/logout")
+@login_required
+def logout():
+    logout_user()
     return redirect(url_for("user.index"))
