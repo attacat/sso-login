@@ -19,7 +19,6 @@ import requests
 
 from db import init_db_command
 from user import User
-import pymysql
 
 
 
@@ -54,20 +53,13 @@ with app.app_context():
     cursor.close()
 
 
-
-
-
 app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
-
-
 
 
 login_manager = LoginManager()
 login_manager.init_app(app)
 
 client = WebApplicationClient(GOOGLE_CLIENT_ID)
-
-
 
 
 
@@ -143,7 +135,6 @@ def callback():
         User.create(unique_id, users_name, users_email, picture)
 
     login_user(user)
-
     return redirect(url_for("index"))
 
 
